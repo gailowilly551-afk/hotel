@@ -10,12 +10,12 @@ if (!defined('ENVIRONMENT')) {
     define('ENVIRONMENT', (getenv('MH_ENV') ?: ($_SERVER['MH_ENV'] ?? 'production')));
 }
 
-// ---- Database Config (XAMPP defaults) ----
-if (!defined('DB_HOST')) define('DB_HOST', '127.0.0.1');
-if (!defined('DB_PORT')) define('DB_PORT', '3306');
-if (!defined('DB_NAME')) define('DB_NAME', 'marvelous_hotel');
-if (!defined('DB_USER')) define('DB_USER', 'root');
-if (!defined('DB_PASS')) define('DB_PASS', '');
+// ---- Database Config (Supports Local XAMPP and Cloud Environments like Render/Railway) ----
+if (!defined('DB_HOST')) define('DB_HOST', getenv('DB_HOST') ?: (getenv('MYSQLHOST') ?: '127.0.0.1'));
+if (!defined('DB_PORT')) define('DB_PORT', getenv('DB_PORT') ?: (getenv('MYSQLPORT') ?: '3306'));
+if (!defined('DB_NAME')) define('DB_NAME', getenv('DB_NAME') ?: (getenv('MYSQLDATABASE') ?: 'marvelous_hotel'));
+if (!defined('DB_USER')) define('DB_USER', getenv('DB_USER') ?: (getenv('MYSQLUSER') ?: 'root'));
+if (!defined('DB_PASS')) define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : (getenv('MYSQLPASSWORD') !== false ? getenv('MYSQLPASSWORD') : ''));
 if (!defined('DB_CHARSET')) define('DB_CHARSET', 'utf8mb4');
 
 // ---- Site Config ----

@@ -14,8 +14,8 @@ if (PHP_SAPI !== 'cli') {
     die('CLI only: php migrate.php' . "\n");
 }
 
-// Ang CLI PHP ay hindi gumagamit ng XAMPP MySQL socket — gamitin ang TCP.
-if (!defined('DB_HOST')) define('DB_HOST', '127.0.0.1');
+// Ang CLI PHP ay hindi gumagamit ng XAMPP MySQL socket — gamitin ang TCP o Environment Variable.
+if (!defined('DB_HOST')) define('DB_HOST', getenv('DB_HOST') ?: (getenv('MYSQLHOST') ?: '127.0.0.1'));
 
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/db.php';
