@@ -850,7 +850,7 @@ $hotelTagline = getSetting('hotel_tagline', 'Your Home Away From Home');
         <p class="testimonial-text">"<?= h($rv['comment']) ?>"</p>
         <div class="testimonial-author">
           <?php if (!empty($rv['avatar']) && $rv['avatar'] !== 'default-avatar.png'): ?>
-            <img src="assets/images/avatars/<?= h($rv['avatar']) ?>" alt="<?= h($rv['name']) ?>" class="testimonial-avatar" style="object-fit:cover;" onerror="this.outerHTML='<div class=\'testimonial-avatar\'><?= strtoupper($rv['name'][0]) ?></div>'">
+            <img src="<?= h(getUserAvatarUrl($rv['avatar'])) ?>" alt="<?= h($rv['name']) ?>" class="testimonial-avatar" style="object-fit:cover;" onerror="this.outerHTML='<div class=\'testimonial-avatar\'><?= strtoupper($rv['name'][0]) ?></div>'">
           <?php else: ?>
             <div class="testimonial-avatar"><?= strtoupper($rv['name'][0]) ?></div>
           <?php endif; ?>
