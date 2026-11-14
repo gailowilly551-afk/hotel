@@ -8,13 +8,16 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/db.php';
 
 /**
- * Send email using PHP mail() or SMTP via settings table.
- * For production, configure SMTP in settings table.
+ * Send email using PHP mail() or SMTP via settings table / environment.
  */
-function sendEmail(string $to, string $subject, string $htmlBody, string $textBody = ''): bool {
-    $fromEmail = getSetting('mail_from_email', 'noreply@' . parse_url(SITE_URL, PHP_URL_HOST));
+function sendEmail(string $to, string $subject, string $htmlBody, string $textBody = '', ?string &$errorMessage = null): bool {
+    $fromEmail = getSetting('mail_from_email', getSetting('smtp_username', 'noreply@marveloushotel.com'));
     $fromName  = getSetting('mail_from_name', SITE_NAME);
-    $mailer    = getSetting('mail_driver', 'mail'); // 'mail' or 'smtp'
+    $mailer    = getSetting('mail_driver', 'smtp');
+
+    if ($mailer === 'smtp' || !empty(getSetting('smtp_username', ''))) {
+        return sendEmailSMTP($to, $subject, $htmlBody, $textBody, $fromEmail, $fromName, $errorMessage);
+    }
 
     $headers = [
         "From: {$fromName} <{$fromEmail}>",
@@ -23,52 +26,75 @@ function sendEmail(string $to, string $subject, string $htmlBody, string $textBo
         "Content-Type: text/html; charset=UTF-8",
     ];
 
-    if ($mailer === 'smtp') {
-        return sendEmailSMTP($to, $subject, $htmlBody, $textBody, $fromEmail, $fromName);
-    }
-
     // Use PHP mail()
     $headerStr = implode("\r\n", $headers);
-    return @mail($to, $subject, $htmlBody, $headerStr);
+    $res = @mail($to, $subject, $htmlBody, $headerStr);
+    if (!$res) {
+        $errorMessage = 'PHP mail() transport failed. Please configure Gmail SMTP in Settings.';
+    }
+    return $res;
 }
 
 /**
- * Send email via SMTP using settings from database.
+ * Send email via SMTP using settings from database or environment.
  */
-function sendEmailSMTP(string $to, string $subject, string $htmlBody, string $textBody, string $fromEmail, string $fromName): bool {
-    $host     = getSetting('smtp_host', '');
-    $port     = (int) getSetting('smtp_port', 587);
-    $username = getSetting('smtp_username', '');
-    $password = getSetting('smtp_password', '');
-    $encryption = getSetting('smtp_encryption', 'tls'); // tls, ssl, or none
+function sendEmailSMTP(string $to, string $subject, string $htmlBody, string $textBody, string $fromEmail, string $fromName, ?string &$errorMessage = null): bool {
+    $host       = getenv('SMTP_HOST') ?: getSetting('smtp_host', 'smtp.gmail.com');
+    $port       = (int) (getenv('SMTP_PORT') ?: getSetting('smtp_port', 587));
+    $username   = getenv('SMTP_USER') ?: getSetting('smtp_username', '');
+    $password   = getenv('SMTP_PASS') ?: getSetting('smtp_password', '');
+    $encryption = strtolower(getenv('SMTP_ENCRYPTION') ?: getSetting('smtp_encryption', 'tls'));
 
-    if (!$host || !$username || !$password) {
-        error_log('SMTP settings incomplete; falling back to mail()');
-        return sendEmail($to, $subject, $htmlBody, $textBody);
+    // Strip spaces in Google App Password (e.g. 'abcd efgh ijkl mnop' -> 'abcdefghijklmnop')
+    $cleanPassword = str_replace([' ', "\t", "\r", "\n"], '', $password);
+
+    if (!$host || !$username || !$cleanPassword) {
+        $errorMessage = 'SMTP configuration incomplete. Please set Gmail address and Google App Password.';
+        error_log($errorMessage);
+        return false;
     }
 
-    // Try to use PHPMailer if available, else fallback to mail()
-    $phpmailerPath = __DIR__ . '/../vendor/phpmailer/phpmailer/src/PHPMailer.php';
-    if (!file_exists($phpmailerPath)) {
-        error_log('PHPMailer not installed; falling back to mail()');
-        return sendEmail($to, $subject, $htmlBody, $textBody);
+    // Autoload PHPMailer via Composer or direct source inclusion
+    if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+        require_once __DIR__ . '/../vendor/autoload.php';
+    } else {
+        $phpmailerPath = __DIR__ . '/../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+        if (file_exists($phpmailerPath)) {
+            require_once $phpmailerPath;
+            require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/SMTP.php';
+            require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/Exception.php';
+        }
     }
 
-    require_once $phpmailerPath;
-    require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/SMTP.php';
-    require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/Exception.php';
+    if (!class_exists('PHPMailer\\PHPMailer\\PHPMailer')) {
+        $errorMessage = 'PHPMailer library is not installed.';
+        error_log($errorMessage);
+        return false;
+    }
 
-    $mail = new PHPMailer\PHPMailer\PHPMailer(true);
     try {
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        $mail->CharSet = 'UTF-8';
         $mail->isSMTP();
         $mail->Host       = $host;
         $mail->SMTPAuth   = true;
         $mail->Username   = $username;
-        $mail->Password   = $password;
-        $mail->SMTPSecure = $encryption === 'ssl' ? PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS : PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = $port;
+        $mail->Password   = $cleanPassword;
 
-        $mail->setFrom($fromEmail, $fromName);
+        if ($encryption === 'ssl' || $port === 465) {
+            $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;
+        } else {
+            $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        }
+        $mail->Port = $port;
+        $mail->Timeout = 12;
+
+        // Resolve clean sender email (prefer valid domain or authenticated Gmail)
+        $actualFrom = (!empty($fromEmail) && strpos($fromEmail, '@') !== false && strpos($fromEmail, 'localhost') === false) 
+                      ? $fromEmail 
+                      : $username;
+
+        $mail->setFrom($actualFrom, $fromName ?: SITE_NAME);
         $mail->addAddress($to);
         $mail->isHTML(true);
         $mail->Subject = $subject;
@@ -77,8 +103,9 @@ function sendEmailSMTP(string $to, string $subject, string $htmlBody, string $te
 
         $mail->send();
         return true;
-    } catch (Exception $e) {
-        error_log('SMTP Error: ' . $e->getMessage());
+    } catch (\Throwable $e) {
+        $errorMessage = $e->getMessage();
+        error_log('SMTP Error: ' . $errorMessage);
         return false;
     }
 }

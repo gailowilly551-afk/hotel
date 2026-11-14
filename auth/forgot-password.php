@@ -63,20 +63,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             auditLog('Password Reset Requested', 'User Auth', "Reset request submitted to Admin for {$targetEmail}");
 
-            // 3. Optional SMTP attempt if configured
-            $smtpConfigured = !empty(getSetting('smtp_host', ''));
-            if ($smtpConfigured) {
-                $resetToken = bin2hex(random_bytes(32));
-                $resetExpires = date('Y-m-d H:i:s', strtotime('+1 hour'));
-                dbExec("UPDATE users SET reset_token = ?, reset_expires = ? WHERE id = ?", [$resetToken, $resetExpires, $userId]);
-                $resetLink = SITE_URL . '/auth/reset-password.php?token=' . $resetToken;
-                $userName = $user['first_name'] . ' ' . $user['last_name'];
-                $htmlBody = emailTemplateResetPassword($resetLink, $userName, 1);
-                $textBody = "Password Reset Request\n\nHello {$userName},\n\nReset link: {$resetLink}\n\n" . SITE_NAME;
-                @sendEmail($targetEmail, 'Password Reset - ' . SITE_NAME, $htmlBody, $textBody);
-            }
+            // 3. Send real email via SMTP if configured or attempted
+            $emailSent = false;
+            $resetToken = bin2hex(random_bytes(32));
+            $resetExpires = date('Y-m-d H:i:s', strtotime('+1 hour'));
+            dbExec("UPDATE users SET reset_token = ?, reset_expires = ? WHERE id = ?", [$resetToken, $resetExpires, $userId]);
+            $resetLink = SITE_URL . '/auth/reset-password.php?token=' . $resetToken;
+            $userName = formatFullName($user);
+            $htmlBody = emailTemplateResetPassword($resetLink, $userName, 1);
+            $textBody = "Password Reset Request\n\nHello {$userName},\n\nClick the link below to reset your password:\n{$resetLink}\n\nThis link will expire in 1 hour.\n\n" . SITE_NAME;
+            $sendErr = null;
+            $emailSent = sendEmail($targetEmail, 'Password Reset Link — ' . SITE_NAME, $htmlBody, $textBody, $sendErr);
 
-            $success = 'Password reset request sent! Our Admin has received your alert. The Admin will assign and send your new temporary password, or you may ask frontdesk assistance.';
+            if ($emailSent) {
+                $success = "A password reset link has been dispatched to <strong>" . h($targetEmail) . "</strong>! Please check your Inbox and Spam/Junk folder.";
+            } else {
+                $success = 'Password reset request sent! Our Admin has received your alert. The Admin will assign and send your new temporary password, or you may ask frontdesk assistance.';
+            }
         } else {
             // Reassuring notice even if email wasn't found to prevent enumeration
             $success = 'If the account exists, your request has been forwarded to the Hotel Admin to dispatch your new password.';

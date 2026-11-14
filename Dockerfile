@@ -22,6 +22,11 @@ RUN mkdir -p /var/www/html/uploads /var/www/html/logs /var/www/html/storage \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/uploads /var/www/html/logs /var/www/html/storage
 
+# Install Composer production dependencies (e.g. PHPMailer)
+RUN if [ -f /var/www/html/composer.json ]; then \
+        php /var/www/html/composer.phar install --no-dev --optimize-autoloader --no-interaction; \
+    fi
+
 # Setup dynamic port entrypoint
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
