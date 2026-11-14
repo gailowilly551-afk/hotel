@@ -1,0 +1,7 @@
+# ============================================================
+# MARVELOUS HOTEL — logs folder
+# Hindi dapat ma-access sa HTTP.
+# ============================================================
+
+Order allow,deny
+Deny from all

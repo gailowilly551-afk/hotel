@@ -1,0 +1,9 @@
+# ============================================================
+# MARVELOUS HOTEL — uploads folder
+# Lahat ng direct HTTP access ay ipinagbabawal.
+# Ang mga file ay siniserve lamang via serve-file.php
+# (may access control: owner / admin / staff).
+# ============================================================
+
+Order allow,deny
+Deny from all

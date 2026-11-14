@@ -1,0 +1,21 @@
+================================================================================
+🏨 MARVELOUS HOTEL & DORMITORY — LIVE CAPSTONE PRESENTATION LINKS
+Nilikha noong: Thursday, 12 November, 2026 11:01:37 PM PST
+Active Engine: Cloudflare
+================================================================================
+
+🌐 1. PUBLIC CLOUD SHAREABLE LINK (Internet / Mobile Data):
+   👉 Main Hotel Page: https://thousand-jeff-quick-occupied.trycloudflare.com/hotel/
+   👉 Admin Login:     https://thousand-jeff-quick-occupied.trycloudflare.com/hotel/admin/login.php
+   👉 Staff Login:     https://thousand-jeff-quick-occupied.trycloudflare.com/hotel/staff/login.php
+   👉 User Dashboard:  https://thousand-jeff-quick-occupied.trycloudflare.com/hotel/user/dashboard.php
+
+📶 2. LOCAL WI-FI / LAN LINK (Same Network):
+   👉 Local URL:       http://10.74.35.192:80/hotel/
+
+--------------------------------------------------------------------------------
+📌 TEST ACCOUNTS & PASSWORDS:
+• 👑 Super Admin: admin@marveloushotel.com / password
+• 🛎️ Front Desk:  staff@marveloushotel.com / password
+• 👤 Guest (KYC):  lan@gmail.com / password
+================================================================================

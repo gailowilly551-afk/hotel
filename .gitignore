@@ -1,0 +1,40 @@
+# ============================================================
+# MARVELOUS HOTEL — Git Ignore Rules
+# ============================================================
+
+# Environment & Sensitive Config
+.env
+.env.local
+.env.production
+
+# Cache & Temporary Files
+.phpunit.result.cache
+*.cache
+*.tmp
+.DS_Store
+Thumbs.db
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Log Files (keep .gitkeep in logs directory)
+logs/*.log
+storage/logs/*.log
+!logs/.gitkeep
+!storage/logs/.gitkeep
+
+# User Uploads (keep directory structure and default images)
+uploads/avatars/*
+uploads/proofs/*
+uploads/ids/*
+!uploads/avatars/default-avatar.png
+!uploads/avatars/.gitkeep
+!uploads/proofs/.gitkeep
+!uploads/ids/.gitkeep
+
+# Composer & Vendor
+/vendor/
+

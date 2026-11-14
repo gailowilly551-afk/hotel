@@ -1,0 +1,47 @@
+[
+  {
+    "keywords": ["check in", "check out", "oras", "time", "dating", "alis", "schedule", "timing"],
+    "response_tl": "Ang aming standard <strong>Check-in Time</strong> ay <strong>2:00 PM</strong> at ang <strong>Check-out Time</strong> ay <strong>12:00 PM (Tanghali)</strong>. Kung nais ninyo ng early check-in o late check-out, maaari kayong mag-iwan ng request sa inyong booking depende sa availability ng kwarto.",
+    "response_en": "Our standard <strong>Check-in Time</strong> is <strong>2:00 PM</strong> and <strong>Check-out Time</strong> is <strong>12:00 PM (Noon)</strong>. Early check-in or late check-out requests can be made upon booking, subject to room availability."
+  },
+  {
+    "keywords": ["bayad", "payment", "gcash", "maya", "paymaya", "paano magbayad", "paano ang bayad", "how to pay", "mode of payment", "qr", "qr code", "methods", "pay"],
+    "response_tl": "Tumatanggap po kami ng <strong>PayMaya (Maya) at GCash ONLY</strong>!<br><ol style='margin:6px 0 0 18px;padding-left:0;'><li><strong>Maya / InstaPay QR:</strong> I-scan lamang ang aming opisyal na Maya QR code sa pangalang <strong>WILLY GAILO (@willygailojr)</strong> gamit ang Maya app o GCash app (Scan QR / QR Ph).</li><li><strong>GCash Express:</strong> Maaari ring mag-send sa GCash: 0912 345 6789.</li><li>Kopyahin ang Reference Number at i-screenshot ang resibo.</li><li>Pumunta sa <strong>User Dashboard &rarr; My Bookings &rarr; Pay</strong> at i-upload ang proof of payment.</li></ol>Mabilis itong iba-validate ng hotel management!",
+    "response_en": "We strictly accept <strong>PayMaya (Maya) and GCash ONLY</strong>!<br><ol style='margin:6px 0 0 18px;padding-left:0;'><li><strong>Maya / InstaPay QR:</strong> Scan our official Maya QR code under the name <strong>WILLY GAILO (@willygailojr)</strong> using the Maya app or GCash app (Scan QR / QR Ph).</li><li><strong>GCash Express:</strong> You can also send payment directly to GCash: 0912 345 6789.</li><li>Copy the Transaction Reference Number and take a screenshot of your receipt.</li><li>Go to your <strong>User Dashboard &rarr; My Bookings &rarr; click Pay</strong> and upload your proof of payment.</li></ol>Our frontdesk and administration will verify your receipt promptly!"
+  },
+  {
+    "keywords": ["paano mag book", "booking", "reserve", "magpareserba", "how to book", "paano mag-book", "reservation steps", "how do i book"],
+    "response_tl": "Napakadali mag-book ng kwarto sa Marvelous Hotel!<br><ol style='margin:6px 0 0 18px;padding-left:0;'><li>Pumunta sa <strong>Browse Rooms</strong> o mag-login sa inyong <strong>User Account</strong>.</li><li>Piliin ang nais na kwarto o dormitory bed at itakda ang Check-in at Check-out dates.</li><li>I-click ang <strong>Book Now / Confirm Booking</strong>.</li><li>Magbayad gamit ang <strong>GCash o PayMaya</strong> at i-upload ang inyong resibo sa dashboard.</li></ol>",
+    "response_en": "Booking a room at Marvelous Hotel is very easy!<br><ol style='margin:6px 0 0 18px;padding-left:0;'><li>Navigate to <strong>Browse Rooms</strong> or log in to your <strong>User Account</strong>.</li><li>Select your preferred room type or dormitory bed and specify your Check-in and Check-out dates.</li><li>Click <strong>Book Now / Confirm Booking</strong>.</li><li>Pay via <strong>GCash or PayMaya</strong> and upload your screenshot receipt in the dashboard.</li></ol>"
+  },
+  {
+    "keywords": ["dorm", "dormitory", "bed", "mura", "budget", "bedspace", "cheapest", "cheap"],
+    "response_tl": "Mayroon kaming budget-friendly dormitories! Available ang <strong>Female Wing (D01)</strong> at <strong>Male Wing (D02)</strong> simula lamang sa <strong>₱350/night</strong> na may kasamang aircon, personal lockers, at high-speed Wi-Fi.",
+    "response_en": "We offer budget-friendly dormitories! Available wings include the <strong>Female Wing (D01)</strong> and <strong>Male Wing (D02)</strong> starting at only <strong>₱350/night</strong>, equipped with air conditioning, personal lockers, and high-speed Wi-Fi."
+  },
+  {
+    "keywords": ["wifi", "internet", "connection", "speed", "fiber", "free wifi"],
+    "response_tl": "Lahat ng kwarto at dormitoryo ay may libre at napakabilis na <strong>Fiber WiFi (hanggang 200 Mbps)</strong> para sa lahat ng bisita.",
+    "response_en": "All rooms and dormitories come with complimentary high-speed <strong>Fiber WiFi (up to 200 Mbps)</strong> for all guests."
+  },
+  {
+    "keywords": ["nakalimutan ang password", "forgot password", "reset password", "palit password", "change password", "recover account", "password recovery"],
+    "response_tl": "Kung nakalimutan ninyo ang inyong password, pumunta lamang sa <strong>Login page</strong> at i-click ang <strong>'Forgot Password?'</strong> link upang makatanggap ng password reset verification link sa inyong email. Maaari rin kayong lumapit sa aming Frontdesk kung kailangan ng karagdagang tulong.",
+    "response_en": "If you forgot your password, please go to the <strong>Login page</strong> and click the <strong>'Forgot Password?'</strong> link to securely receive a password reset link at your registered email address. You may also visit the Frontdesk for in-person account verification."
+  },
+  {
+    "keywords": ["location", "saan", "address", "landmark", "lugar", "paano pumunta", "how to get there", "where are you", "direksyon", "directions"],
+    "response_tl": "📍 <strong>Lokasyon ng Marvelous Hotel:</strong><br>Matatagpuan kami sa gitna ng siyudad, malapit sa mga pangunahing sakayan, shopping malls, at commercial centers. Accessible kami via taxi, grab, tricycle, o jeepney. May 24/7 Frontdesk kami na handang mag-gabay sa inyong pagdating!",
+    "response_en": "📍 <strong>Marvelous Hotel Location:</strong><br>We are conveniently situated in the heart of the city, easily accessible via Grab, taxi, or public transport, and just minutes away from major terminals, malls, and restaurants. Our 24/7 Frontdesk is always ready to welcome and assist you upon arrival!"
+  },
+  {
+    "keywords": ["parking", "park", "sasakyan", "kotse", "motor", "car park"],
+    "response_tl": "🚗 <strong>Parking Facilities:</strong><br>Mayroon po kaming secure at monitored parking spaces para sa mga bisitang may dalang kotse o motorsiklo sa first-come, first-served basis.",
+    "response_en": "🚗 <strong>Parking Facilities:</strong><br>We provide secure, CCTV-monitored parking spaces for checked-in guests with cars or motorcycles on a first-come, first-served basis."
+  },
+  {
+    "keywords": ["couple", "dalawa", "2 tao", "2 pax", "mag-asawa", "magkasintahan", "two persons", "2 guests"],
+    "response_tl": "💑 Para sa <strong>2 tao o mag-asawa</strong>, lubos naming inirerekomenda ang aming <strong>Deluxe Room (₱1,500 - ₱1,600/gabi)</strong> na may King-size bed, private bathroom na may hot shower, Smart TV, at magandang view. Kung mas budget-conscious, ang aming <strong>Standard Room (₱800/gabi)</strong> ay swak na swak din para sa dalawa!",
+    "response_en": "💑 For <strong>couples or 2 guests</strong>, we highly recommend our <strong>Deluxe Room (₱1,500 - ₱1,600/night)</strong> featuring a luxurious King-size bed, private hot shower, Smart TV, and panoramic view. For budget travelers, our <strong>Standard Room (₱800/night)</strong> is also a great comfortable choice for two!"
+  }
+]
