@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # 🏨 MARVELOUS HOTEL & DORMITORY — ONE-CLICK CAPSTONE LIVE SHARING SCRIPT
-# File: scripts/share-capstone.sh (Symlinked to project root)
-# Supports: Cloudflare Tunnel, Ngrok Fallback, Local LAN Wi-Fi, & Terminal QR Code
+# File: scripts/share-capstone.sh (Symlinked to project root as share-capstone.sh)
+# Engine: Cloudflare Tunnel, Ngrok Fallback, Local LAN Wi-Fi, & Terminal QR Code
+# Synchronized with: GitHub (github.com/gailowilly551-afk/hotel) & Gmail SMTP
 # ==============================================================================
 
 set -e
@@ -28,6 +29,21 @@ cd "$HOTEL_DIR"
 
 # Parse Command-Line Arguments
 ACTION="${1:-}"
+
+if [ "$ACTION" = "--help" ] || [ "$ACTION" = "-h" ] || [ "$ACTION" = "help" ]; then
+    echo "🏨 Marvelous Hotel & Dormitory — Live Sharing Script Help"
+    echo "======================================================================"
+    echo "Gamit: ./share-capstone.sh [FLAG]"
+    echo ""
+    echo "Mga Flags:"
+    echo "  (walang flag)   Sisimulan ang live Cloudflare/Ngrok tunnel at maghihintay (Ctrl+C to stop)"
+    echo "  --daemon, -d    Patatakbuhin ang tunnel sa background para hindi mamatay kahit isara ang terminal"
+    echo "  --status        Ipakita ang kasalukuyang tumatakbong live link at tunnel status"
+    echo "  --stop          Isara ang lahat ng aktibong tunnels at patayin ang daemon process"
+    echo "  --help, -h      Ipakita ang tulong na ito"
+    echo "======================================================================"
+    exit 0
+fi
 
 if [ "$ACTION" = "--stop" ] || [ "$ACTION" = "stop" ]; then
     echo "🛑 Isinasara ang lahat ng aktibong tunnels (Cloudflare / Ngrok)..."
@@ -66,7 +82,7 @@ echo "🏨 INIHAHANDA ANG MARVELOUS HOTEL CAPSTONE LIVE PRESENTATION & CLOUD TUN
 echo "================================================================================"
 
 # 2. Ensure Permissions on uploads and logs
-echo "🛡️  Sinusuri ang File Permissions sa uploads at logs..."
+echo "🛡️  Sinusuri ang File Permissions sa uploads, storage, at logs..."
 chmod -R 777 "$HOTEL_DIR/uploads" "$HOTEL_DIR/logs" "$HOTEL_DIR/storage" 2>/dev/null || true
 
 # 3. Detect Local Network IP for LAN / Wi-Fi Sharing
@@ -227,7 +243,9 @@ ROOMS_LINK="${TUNNEL_URL}${BASE_PATH}/rooms.php"
 USER_PORTAL="${TUNNEL_URL}${BASE_PATH}/user/dashboard.php"
 STAFF_LOGIN="${TUNNEL_URL}${BASE_PATH}/staff/login.php"
 ADMIN_LOGIN="${TUNNEL_URL}${BASE_PATH}/admin/login.php"
+FORGOT_PASSWORD="${TUNNEL_URL}${BASE_PATH}/auth/forgot-password.php"
 LAN_LINK="http://${LOCAL_IP}:${TARGET_PORT}${BASE_PATH}/"
+GITHUB_REPO="https://github.com/gailowilly551-afk/hotel"
 
 # Write active links to LIVE_URL.txt for convenience
 cat << EOF > "$HOTEL_DIR/LIVE_URL.txt"
@@ -235,16 +253,18 @@ cat << EOF > "$HOTEL_DIR/LIVE_URL.txt"
 🏨 MARVELOUS HOTEL & DORMITORY — LIVE CAPSTONE PRESENTATION LINKS
 Nilikha noong: $(date)
 Active Engine: $TUNNEL_ENGINE
+GitHub Repository: $GITHUB_REPO
 ================================================================================
 
 🌐 1. PUBLIC CLOUD SHAREABLE LINK (Internet / Mobile Data):
-   👉 Main Hotel Page: $MAIN_LINK
-   👉 Admin Login:     $ADMIN_LOGIN
-   👉 Staff Login:     $STAFF_LOGIN
-   👉 User Dashboard:  $USER_PORTAL
+   👉 Main Hotel Page:  $MAIN_LINK
+   👉 Admin Login:      $ADMIN_LOGIN
+   👉 Staff Login:      $STAFF_LOGIN
+   👉 User Dashboard:   $USER_PORTAL
+   👉 Forgot Password:  $FORGOT_PASSWORD
 
 📶 2. LOCAL WI-FI / LAN LINK (Same Network):
-   👉 Local URL:       $LAN_LINK
+   👉 Local URL:        $LAN_LINK
 
 --------------------------------------------------------------------------------
 📌 TEST ACCOUNTS & PASSWORDS:
@@ -261,6 +281,7 @@ echo "==========================================================================
 echo "🎉 🏨 MARVELOUS HOTEL & DORMITORY — LIVE CAPSTONE PRESENTATION IS ACTIVE!"
 echo "================================================================================"
 echo "⚡ Active Engine: $TUNNEL_ENGINE"
+echo "🐙 GitHub Repository: $GITHUB_REPO"
 echo ""
 echo "🔗 1. PUBLIC SHAREABLE CLOUD LINK (Kahit anong internet o phone data):"
 echo "   👉 $MAIN_LINK"
@@ -283,37 +304,40 @@ echo "📌 MGA DIRECT PORTAL LINKS, ROLES, AT TEST CREDENTIALS:"
 echo "--------------------------------------------------------------------------------"
 echo ""
 echo "1. 🌐👤 GUEST & PUBLIC PORTAL (Hotel Website, Rooms Catalog, Booking & Payments):"
-echo "   Main Page:    $MAIN_LINK"
-echo "   Browse Rooms: $ROOMS_LINK"
-echo "   Dashboard:    $USER_PORTAL"
-echo "   Test Account: lan@gmail.com (Verified Guest)"
-echo "   Password:     password"
-echo "   Features:     • Full KYC Identity Verification Requirement before booking"
-echo "                 • Instant Payment Methods Pop-up Modal (PayMaya QR & GCash)"
-echo "                 • Live Stay & Pricing Calculator (Nights x Rate)"
-echo "                 • Unified 1-click Reservation + Payment Proof Submission"
-echo "                 • Booking Voucher with Exact Activity Timestamps (Date/Time/Year)"
-echo "                 • AI Concierge Chatbot assistant & dynamic room search"
+echo "   Main Page:       $MAIN_LINK"
+echo "   Browse Rooms:    $ROOMS_LINK"
+echo "   Dashboard:       $USER_PORTAL"
+echo "   Forgot Password: $FORGOT_PASSWORD"
+echo "   Test Account:    lan@gmail.com (Verified Guest)"
+echo "   Password:        password"
+echo "   Features:        • Full KYC Identity Verification Requirement before booking"
+echo "                    • Instant Payment Methods Pop-up Modal (PayMaya QR & GCash)"
+echo "                    • Live Stay & Pricing Calculator (Nights x Rate)"
+echo "                    • Unified 1-click Reservation + Payment Proof Submission"
+echo "                    • Booking Voucher with Exact Activity Timestamps (Date/Time/Year)"
+echo "                    • AI Concierge Chatbot assistant & dynamic room search"
+echo "                    • Real Gmail SMTP Password Reset Request & 1-Hour Token Dispatch"
 echo ""
 echo "2. 🛎️ STAFF / FRONTDESK PORTAL (Daily Operations & Delegated Approvals):"
-echo "   URL:          $STAFF_LOGIN"
-echo "   Email:        staff@marveloushotel.com"
-echo "   Password:     password"
-echo "   Features:     • Frontdesk Check-in / Check-out with automatic timestamps"
-echo "                 • Live Housekeeping & Rooms Status Board"
-echo "                 • Delegated Payment Verification (Receipt Inspector & Approval)"
-echo "   Security:     User account management is strictly restricted to Super Admin."
+echo "   URL:             $STAFF_LOGIN"
+echo "   Email:           staff@marveloushotel.com"
+echo "   Password:        password"
+echo "   Features:        • Frontdesk Check-in / Check-out with automatic timestamps"
+echo "                    • Live Housekeeping & Rooms Status Board (Dirty/Clean/Maintenance)"
+echo "                    • Delegated Payment Verification (Receipt Lightbox & Approval)"
+echo "   Security:        User account management is strictly restricted to Super Admin."
 echo ""
 echo "3. 👑 SUPER ADMIN PORTAL (Full Executive Control & System Audit):"
-echo "   URL:          $ADMIN_LOGIN"
-echo "   Email:        admin@marveloushotel.com"
-echo "   Password:     password"
-echo "   Features:     • Master Bookings Registry with Decision Timestamps Audit"
-echo "                 • Interactive Visual Timeline Modal per reservation"
-echo "                 • User & Staff Account Management (Full Edit & Delete)"
-echo "                 • KYC Guest ID Verification Inspection & Adjudication"
-echo "                 • Payment Verification Hub with Receipt Lightbox"
-echo "                 • Full Security Audit Logs & AI System Configuration"
+echo "   URL:             $ADMIN_LOGIN"
+echo "   Email:           admin@marveloushotel.com"
+echo "   Password:        password"
+echo "   Features:        • Master Bookings Registry with Decision Timestamps Audit"
+echo "                    • Interactive Visual Timeline Modal per reservation"
+echo "                    • User & Staff Account Management (Full Edit & Delete)"
+echo "                    • KYC Guest ID Verification Inspection & Adjudication"
+echo "                    • Payment Verification Hub with Receipt Lightbox"
+echo "                    • Full Security Audit Logs & AI System Configuration"
+echo "                    • Live Gmail SMTP Control Center & Outbound Test Dispatcher"
 echo ""
 echo "--------------------------------------------------------------------------------"
 echo "📂 Naka-save din ang kumpletong links sa: $HOTEL_DIR/LIVE_URL.txt"
