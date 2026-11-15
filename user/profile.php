@@ -423,8 +423,11 @@ $kyc = getUserKycStatus($userId);
           </h3>
 
           <div class="form-group">
-            <label class="form-label">Current Password</label>
-            <input type="password" name="current_password" class="form-control" placeholder="••••••••">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <label class="form-label" style="margin-bottom:0;">Current Password</label>
+              <a href="../auth/forgot-password.php?email=<?= urlencode($user['email'] ?? '') ?>" style="font-size:0.75rem;color:var(--gold);text-decoration:underline;">Forgot current password?</a>
+            </div>
+            <input type="password" name="current_password" class="form-control" placeholder="••••••••" style="margin-top:6px;">
           </div>
 
           <div class="form-group">

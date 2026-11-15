@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label class="form-label">Registered Email Address <span class="required">*</span></label>
         <div class="form-icon-wrap">
           <i class="fa-solid fa-envelope form-icon"></i>
-          <input type="email" name="email" class="form-control" placeholder="name@email.com" value="<?= h($_POST['email'] ?? '') ?>" required autofocus autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="email">
+          <input type="email" name="email" class="form-control" placeholder="name@email.com" value="<?= h($_POST['email'] ?? ($_GET['email'] ?? '')) ?>" required autofocus autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="email">
         </div>
       </div>
 
